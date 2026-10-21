@@ -19,7 +19,7 @@
         <p>Manage shared bills and trip expenses easily.</p>
         <button id="signupbtn">Sign up</button>
         <button id="loginbtn">log in</button>
-        <a href="#about">About SplitMate></a>
+        <button id="aboutbtn">About SplitMate></button
       </section>
       <section id="signup" hidden>
         <h2>Create Your account</h2>
@@ -71,7 +71,7 @@
           <option value="JPY">Japenese Yen ¥</option>
         </select>
       </section>
-      <section id="about">
+      <section id="about" hidden>
         
       
         <h2>About SplitMate</h2>
@@ -114,7 +114,7 @@
         </p>
         </section>
 
-        <section id="rules">
+        <section id="rules" hidden>
         <h2>Rules for Using SplitMate</h2>
 
         <p>
@@ -199,6 +199,7 @@
         Be honest about expenses, check your calculations, and respect
         everyone's privacy.
       </p>
+      <button id="backbtn">back to home</button>
       </section>
     </main>
     <footer>
@@ -210,6 +211,10 @@
       const welcome = document.getElementById("welcome");
       const signup = document.getElementById("signup");
       const login = document.getElementById("login");
+      const aboutbtn = document.getElementById("aboutbtn");
+      const backbtn = document.getElementById("backbtn");
+      const about = document.getElementById("about");
+      const rules = document.getElementById("rules");
       signupbtn.addEventListener("click", function() {
         welcome.hidden = true;
         signup.hidden = false;
@@ -220,6 +225,18 @@
         signup.hidden = true;
         login.hidden = false;
       });
+      aboutbtn.addEventListener("click", function() {
+        welcome.hidden = true;
+        signup.hidden = false;
+        login.hidden = false;
+      });
+      backbtn.addEventListener("click", function() {
+        welcome.hidden = false;
+        signup.hidden = true;
+        login.hidden = true;
+      });
+        
+      
       
     </script>
     

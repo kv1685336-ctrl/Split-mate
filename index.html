@@ -204,6 +204,21 @@
       <p>&copy; 2026 SplitMate. All rights reserved.</p>
     </footer>
     <script>
+      const signupbtn = document.getElementById("signupbtn");
+      const loginbtn = document.getElementById("loginbtn");
+      const welcome = document.getElementById("welcome");
+      const signup = document.getElementById("signup");
+      const login = document.getElementById("login");
+      signupbtn.addEventListener("click", function() {
+        welcome.hidden = true;
+        signup.hidden = false;
+        login.hidden = true;
+      }
+     loginbtn.addEventListener("click", function() {
+        welcome.hidden = true;
+        signup.hidden = true;
+        login.hidden = false;
+      }
       
     </script>
     

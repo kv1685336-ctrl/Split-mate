@@ -51,14 +51,20 @@
       <section id="splitbill" hidden>
         <h2>SPLIT A BILL</h2>
         <p>Add members, upload a receipt and assign items.</p>
+        <button type="button" onclick="showSection(dashboard)">back to Dashboard</button>
+        
+  
+        
       </section>
       <section id="CreateTrip" hidden>
         <h2>Start calculating your trip splits</h2>
         <p>Add members and manage all your trip expenses.</p>
+        <button type="button" onclick="showSection(dashboard)"></button>
       </section>
       <section id="history" hidden>
         <h2>YOUR HISTORY</h2>
         <p>Your saved bills and trips will appear here.</p>
+        <button type="button" oneclick="showSection(dashboard)"></button>
       </section>
       <section id="settings" hidden>
         <h2>SETTINGS</h2>
@@ -70,6 +76,8 @@
           <option value="GBP">British pound £</option>
           <option value="JPY">Japenese Yen ¥</option>
         </select>
+        <button type="button" oneclick="showSection(dashboard)"></button>
+        
       </section>
       <section id="about" hidden>
         
@@ -220,7 +228,12 @@
       const splitbillbtn = document.getElementById("splitbillbtn");
       const tripbtn = document.getElementById("tripbtn");
       const historybtn = doucment.getElementById("historybtn");
-      const settingsbtn =
+      const settingsbtn = document.getElementById("settingsbtn");
+      const dashboard = document.getElementById("dashboard");
+      const trip = document.getElementById("CreateTrip");
+      const splitbill = document.getElementById("splitbill");
+      const history = document.getElementById("history");
+      const settings = document.getElementById("settings");
       signupbtn.addEventListener("click", function() {
         welcome.hidden = true;
         signup.hidden = false;
@@ -250,6 +263,8 @@
         about.hidden = true;
         rules.hidden = true;
       });
+      
+      
         
       
       

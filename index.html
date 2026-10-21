@@ -219,21 +219,30 @@
         welcome.hidden = true;
         signup.hidden = false;
         login.hidden = true;
+        about.hidden = true;
+        rules.hidden = true;
       });
      loginbtn.addEventListener("click", function() {
         welcome.hidden = true;
         signup.hidden = true;
         login.hidden = false;
+        about.hidden = true;
+        rules.hidden = true;
+       
       });
       aboutbtn.addEventListener("click", function() {
         welcome.hidden = true;
-        signup.hidden = false;
-        login.hidden = false;
+        about.hidden = false
+        signup.hidden = true;
+        login.hidden = true;
+        rules.hidden = false;
       });
       backbtn.addEventListener("click", function() {
         welcome.hidden = false;
         signup.hidden = true;
         login.hidden = true;
+        about.hidden = true;
+        rules.hidden = true;
       });
         
       

@@ -20,6 +20,7 @@
         <button id="signupbtn">Sign up</button>
         <button id="loginbtn">log in</button>
         <button id="aboutbtn">About SplitMate></button>
+        <button id="rulesbtn">rules</button>
       </section>
       <section id="signup" hidden>
         <h2>Create Your account</h2>
@@ -39,15 +40,17 @@
           <label for="loginPassword">Password</label>
           <input type="password" id="loginPassword" required>
           <button type="submit">Continue</button>
+          <button type="button" class="secondary">back</button>
         </form>
       </section>
       <section id="dashboard" hidden>
         <h2>YOUR DASHBOARD</h2>
-        <button id="splitbillbtn">Split a bill</button>
-        <button id="tripbtn">Start trip split</button>
-        <button id="historybtn">History</button>
-        <button id="settingsbtn">Settings</button>
-      </section>
+        <div class="menu">
+          <button data-go="splitbill">Split a bill</button>
+          <button id="tripbtn">Start trip split</button>
+          <button id="historybtn">History</button>
+          <button id="settingsbtn">Settings</button>
+        </section>
       <section id="splitbill" hidden>
         <h2>SPLIT A BILL</h2>
         <p>Add members, upload a receipt and assign items.</p>

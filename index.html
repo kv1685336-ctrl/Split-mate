@@ -68,11 +68,7 @@
         <p id="billResult" aria-live="polite"</p>
         <button data-go="dashBoard" class="secondary">back to Dashboard</button>   
       </section>
-      <section id="CreateTrip" hidden>
-        <h2>Start calculating your trip splits</h2>
-        <p>Add members and manage all your trip expenses.</p>
-        <button type="button" onclick="showSection(dashboard)"></button>
-      </section>
+      
       <section id="history" hidden>
         <h2>YOUR HISTORY</h2>
         <p>Your saved bills and trips will appear here.</p>
@@ -88,7 +84,9 @@
           <option value="GBP">British pound £</option>
           <option value="JPY">Japenese Yen ¥</option>
         </select>
+        <p>Your Selected Currency: <strong id="CurrencyResult">INR</strong></p>
         <button type="button" oneclick="showSection(dashboard)"></button>
+        <button data-go="dashBoard" class="secondary">back to DashBoard</button>
         
       </section>
       <section id="about" hidden>

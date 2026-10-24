@@ -421,6 +421,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
       const members = Number(document.getElementById("billMembers").value);
       const amount = Number(document.getElementById("billAmount").value);
       const currency = document.getElementById("currency").value;
+      const membersname = document.getElementById("membersname").value.trim();
 
       if (!name || !Number.isInteger(members) || members < 1 ||
           !Number.isFinite(amount) || amount <= 0) {
@@ -432,8 +433,8 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
       const share = amount / members;
 
       document.getElementById("billResult").textContent =
-        name + ": total " + amount.toFixed(2) + " " + currency +
-        ". Each of " + members + " people pays " +
+        name + membersname +
+        
         share.toFixed(2) + " " + currency + ".";
     });
 

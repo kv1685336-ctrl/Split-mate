@@ -193,7 +193,10 @@
 
         <label for="billAmount">Total amount</label>
         <input id="billAmount" type="number"
-               min="0.01" step="0.01" required>
+               min="0.01" step="0.01" placeholder="e.g. 1000"required >
+        <label for="Membersname">Member's Name</label>
+        <textarea id="Membersname" rows="4" placeholder="Enter one name per line&#10;Pranav&#10;Kapil&#10;Vijay" required></textarea>
+        <p class="hint">Enter one person's name per line</p>
 
         <button type="submit">Calculate Shares</button>
       </form>

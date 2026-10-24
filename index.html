@@ -1,433 +1,465 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split-Mate</title>
-    <style>
-      
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>SPLIT-MATE</h1>
-      <p>Split bills. Share expenses. Travel together.</p>   
-    </header>
-    <main>
-      <section id="welcome">
-        <h2>Welcome To SplitMate.</h2>
-        <p>Manage shared bills and trip expenses easily.</p>
-        <button id="signupbtn">Sign up</button>
-        <button id="loginbtn">log in</button>
-        <button id="aboutbtn">About SplitMate></button>
-        
-      </section>
-      <section id="signup" hidden>
-        <h2>Create Your account</h2>
-        <form id="signform">
-          <label for="signupUsername">Username</label>
-          <input type="text" id="signupUsername" required>
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" required>
-          <button type="submit">Continue</button>
-        </form>  
-      </section>
-      <section id="login" hidden>
-        <h2>log in </h2>
-        <form id="loginForm">
-          <label for="loginUsername">Username</label>
-          <input type="text" id="loginUsername" required>
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" required>
-          <button type="submit">Continue</button>
-          <button type="button" class="secondary">back</button>
-        </form>
-      </section>
-      <section id="dashboard" hidden>
-        <h2>YOUR DASHBOARD</h2>
-        <div class="menu">
-          <button data-go="splitbill">Split a bill</button>
-          <button data-go="tripbtn">Start trip split</button>
-          <button data-go="historybtn">History</button>
-          <button data-go="settingsbtn">Settings</button>
-        </div>
-        </section>
-      
-      <section id="splitbill" hidden>
-        <h2>SPLIT A BILL</h2>
-        <p>Add members, upload a receipt and assign items.</p>
-        <form id="billForm">
-          <label for="billName">Bill Name</label>
-          <input id="billName" type="text" placeholder="e.g. Dinner">
-          <label for="billMembers">bill Members</label>
-          <input id="billMembers" type="number" min="1" step="1" required>
-          <label for="billAmount">Total amount</label>
-          <input id="billamount" type="number" min="0.01" step="0.01" required>
-          <button type="sumbit">Calculate Shares</button>
-        </form>
-        <p id="billResult" aria-live="polite"</p>
-        <button data-go="dashBoard" class="secondary">back to Dashboard</button>   
-      </section>
-      
-      <section id="history" hidden>
-        <h2>YOUR HISTORY</h2>
-        <p>Your saved bills and trips will appear here.</p>
-        <button type="button" oneclick="showSection(dashboard)"></button>
-      </section>
-      <section id="settings" hidden>
-        <h2>SETTINGS</h2>
-        <label for="currency">Choose currency</label>
-        <select id="currency">
-          <option value="INR">INDIAN RUPEES ₹</option>
-          <option value="USD">American Dollars $</option>
-          <option value="EUR">Euro €</option>
-          <option value="GBP">British pound £</option>
-          <option value="JPY">Japenese Yen ¥</option>
-        </select>
-        <p>Your Selected Currency: <strong id="CurrencyResult">INR</strong></p>
-        <button type="button" oneclick="showSection(dashboard)"></button>
-        <button data-go="dashBoard" class="secondary">back to DashBoard</button>
-        
-      </section>
-      <section id="about" hidden>
-        
-      
-        <h2>About SplitMate</h2>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split-Mate</title>
 
-        <p>
-        SplitMate is an expense-sharing web application designed to make
-        managing money with friends, family members, and travel groups
-        simple, organized, and transparent.
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        It helps users organize shared expenses, calculate individual
-        shares, track who paid each bill, and show who needs to pay whom.
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fa;
+      color: #202938;
+    }
 
-        Users can create an account, log in, and access their dashboard
-        to choose between Split a Bill and Create a Trip.
+    header {
+      background: #176b55;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
 
-        With Split a Bill, users can add members, upload a receipt photo,
-        or enter items and prices manually. Receipt recognition can help
-        identify item names and prices, but users should review the results.
+    header h1 {
+      margin: 0 0 8px;
+      letter-spacing: 2px;
+    }
 
-        Users can assign each item to the people who consumed it, divide
-        shared items equally among selected members, and record who paid.
+    header p {
+      margin: 0;
+    }
 
-        With Create a Trip, users can organize expenses for holidays,
-        outings, vacations, and other group activities. They can record
-        food, accommodation, transportation, tickets, shopping, and
-        custom expense categories.
+    main {
+      width: 92%;
+      max-width: 650px;
+      margin: 25px auto;
+    }
 
-        SplitMate is planned to support multiple currencies, saved bills
-        and trips, expense histories, and settlement suggestions showing
-        who owes whom. Optional invitations can let friends participate
-        without requiring every member to create an account.
+    section {
+      background: white;
+      padding: 24px;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px #00000010;
+    }
 
-        SplitMate calculates expense shares and suggests settlements;
-        it does not automatically transfer money. Receipt recognition,
-        currency conversion, secure accounts, and saved information will
-        require the appropriate technical services.
+    h2 {
+      color: #176b55;
+    }
 
-        The goal of SplitMate is simple: make sharing expenses fair,
-        clear, convenient, and stress-free.
-        </p>
-        
-        
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
 
-          
-        <h1><strong>Rules for Using SplitMate</strong></h1>
+    input, select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 16px;
+    }
 
-        <p>
-        Welcome to SplitMate! Follow these guidelines to help everyone
-        manage shared expenses fairly, accurately, and responsibly.
-        </p>
+    button {
+      padding: 11px 16px;
+      margin: 8px 5px 0 0;
+      border: none;
+      border-radius: 7px;
+      background: #176b55;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
 
-       <h3>1. Account Usage</h3>
-       <p>
-        Create an account or log in before accessing saved bills and
-        trips. Keep your password private and protect your account.
-       </p>
+    button:hover {
+      background: #105440;
+    }
 
-       <h3>2. Enter Accurate Information</h3>
-       <p>
-        Enter correct item names, prices, expense amounts, member names,
-        and payment details. Review information before saving.
-       </p>
+    .secondary {
+      background: #64748b;
+    }
+
+    .menu button {
+      width: 100%;
+      margin: 6px 0;
+      text-align: left;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      color: #64748b;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .message {
+      color: #176b55;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>SPLIT-MATE</h1>
+    <p>Split bills. Share expenses. Travel together.</p>
+  </header>
+
+  <main>
+
+    <!-- Welcome -->
+    <section id="welcome">
+      <h2>Welcome to SplitMate</h2>
+      <p>Manage shared bills and trip expenses easily.</p>
+      <button id="signupbtn">Sign up</button>
+      <button id="loginbtn">Log in</button>
+      <button id="aboutbtn">About SplitMate</button>
+      <button id="rulesbtn">Rules</button>
+    </section>
+
+    <!-- Sign up -->
+    <section id="signup" hidden>
+      <h2>Create Your Account</h2>
+      <form id="signform">
+        <label for="signupUsername">Username</label>
+        <input type="text" id="signupUsername" required>
+
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required>
+
+        <button type="submit">Continue</button>
+        <button type="button" class="secondary" data-go="welcome">
+          Back
+        </button>
+      </form>
+      <p id="signupMessage" class="message"></p>
+    </section>
+
+    <!-- Log in -->
+    <section id="login" hidden>
+      <h2>Log In</h2>
+      <form id="loginForm">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" required>
+
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required>
+
+        <button type="submit">Continue</button>
+        <button type="button" class="secondary" data-go="welcome">
+          Back
+        </button>
+      </form>
+      <p id="loginMessage" class="message"></p>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard" hidden>
+      <h2>Your Dashboard</h2>
+      <p>Welcome to your expense management dashboard.</p>
+
+      <div class="menu">
+        <button data-go="splitbill">Split a Bill</button>
+        <button data-go="CreateTrip">Start Trip Split</button>
+        <button data-go="history">History</button>
+        <button data-go="settings">Settings</button>
+        <button data-go="welcome" class="secondary">Log out</button>
+      </div>
+    </section>
+
+    <!-- Split a bill -->
+    <section id="splitbill" hidden>
+      <h2>Split a Bill</h2>
+      <p>Add members and enter the total bill amount.</p>
+
+      <form id="billForm">
+        <label for="billName">Bill name</label>
+        <input id="billName" type="text"
+               placeholder="e.g. Dinner" required>
+
+        <label for="billMembers">Number of people</label>
+        <input id="billMembers" type="number"
+               min="1" step="1" required>
+
+        <label for="billAmount">Total amount</label>
+        <input id="billAmount" type="number"
+               min="0.01" step="0.01" required>
+
+        <button type="submit">Calculate Shares</button>
+      </form>
+
+      <p id="billResult" aria-live="polite"></p>
+      <button data-go="dashboard" class="secondary">
+        Back to Dashboard
+      </button>
+    </section>
+
+    <!-- Trip -->
+    <section id="CreateTrip" hidden>
+      <h2>Start Calculating Your Trip Splits</h2>
+      <p>Add a trip and record your overall expenses.</p>
+
+      <form id="tripForm">
+        <label for="tripName">Trip name</label>
+        <input id="tripName" type="text"
+               placeholder="e.g. Ooty Trip" required>
+
+        <label for="tripMembers">Number of people</label>
+        <input id="tripMembers" type="number"
+               min="1" step="1" required>
+
+        <label for="tripAmount">Total trip expenses</label>
+        <input id="tripAmount" type="number"
+               min="0" step="0.01" required>
+
+        <button type="submit">Calculate Trip Shares</button>
+      </form>
+
+      <p id="tripResult" aria-live="polite"></p>
+      <button data-go="dashboard" class="secondary">
+        Back to Dashboard
+      </button>
+    </section>
+
+    <!-- History -->
+    <section id="history" hidden>
+      <h2>Your History</h2>
+      <p id="historyMessage">
+        Your saved bills and trips will appear here.
+      </p>
+      <button data-go="dashboard" class="secondary">
+        Back to Dashboard
+      </button>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings" hidden>
+      <h2>Settings</h2>
+
+      <label for="currency">Choose currency</label>
+      <select id="currency">
+        <option value="INR">Indian Rupees ₹</option>
+        <option value="USD">American Dollars $</option>
+        <option value="EUR">Euro €</option>
+        <option value="GBP">British Pound £</option>
+        <option value="JPY">Japanese Yen ¥</option>
+      </select>
+
+      <p>Your selected currency: <strong id="currencyResult">INR</strong></p>
+
+      <button data-go="dashboard" class="secondary">
+        Back to Dashboard
+      </button>
+    </section>
+
+    <!-- About -->
+    <section id="about" hidden>
+      <h2>About SplitMate</h2>
+
+      <p>
+        SplitMate is an expense-sharing web application designed to
+        make managing money with friends, family members, and travel
+        groups simple, organized, and transparent.
+      </p>
+
+      <p>
+        Users can organize shared expenses, calculate individual
+        shares, track who paid each bill, and see suggested settlements.
+      </p>
+
+      <p>
+        Planned features include receipt uploads, item-by-item splitting,
+        trip expense management, multiple currencies, and saved histories.
+      </p>
+
+      <p>
+        SplitMate calculates expense shares and suggests settlements.
+        It does not automatically transfer money.
+      </p>
+
+      <p>
+        Secure accounts, receipt recognition, currency conversion,
+        and permanent storage require additional technical services.
+      </p>
+
+      <button data-go="welcome" class="secondary">Back to Home</button>
+    </section>
+
+    <!-- Rules -->
+    <section id="rules" hidden>
+      <h2>Rules for Using SplitMate</h2>
+
+      <h3>1. Account Usage</h3>
+      <p>Keep your account credentials private.</p>
+
+      <h3>2. Enter Accurate Information</h3>
+      <p>Check member names, prices, and expense amounts.</p>
 
       <h3>3. Receipt Uploads</h3>
-      <p>
-        You may upload a receipt or enter items manually. Check recognized
-        item names, quantities, prices, taxes, discounts, and totals.
-      </p>
+      <p>Review receipt details before relying on them.</p>
 
       <h3>4. Fair Bill Splitting</h3>
-      <p>
-        Assign each item to the people who consumed it. Shared items are
-        divided equally among the selected members.
-     </p>
+      <p>Assign expenses to the people responsible for sharing them.</p>
 
-       <h3>5. Record Who Paid</h3>
-       <p>
-        Record the person who actually paid each expense. The payer and
-        the people responsible for sharing the expense may be different.
-       </p>
+      <h3>5. Record Who Paid</h3>
+      <p>Record the actual payer for each expense.</p>
 
       <h3>6. Trip Expenses</h3>
-      <p>
-        The organizer manages the member list and expense records.
-        Avoid duplicate entries and check that all expenses are included.
-      </p>
+      <p>Avoid duplicate entries and include all trip expenses.</p>
 
-      <h3>7. Currency and Conversion</h3>
-      <p>
-        Select the correct currency for each expense and the trip's main
-        currency. Check exchange rates and converted amounts carefully.
-      </p>
+      <h3>7. Currency</h3>
+      <p>Check the currency used for each expense.</p>
 
-        <h3>8. Review Settlement Results</h3>
-        <p>
-        Review suggested payments before settling balances. SplitMate
-        calculates expenses but does not transfer money between users.
-       </p>
+      <h3>8. Settlement Results</h3>
+      <p>Review suggested payments before settling balances.</p>
 
-       <h3>9. Respect Other Members</h3>
-       <p>
-        Discuss disputed expenses politely. Respect other people's privacy
-        and obtain appropriate permission before sharing their information.
-       </p>
+      <h3>9. Respect Other Members</h3>
+      <p>Respect everyone's privacy and discuss disputes politely.</p>
 
-       <h3>10. Protect Saved Information</h3>
-       <p>
-        Keep account credentials private and avoid uploading sensitive
-        information that is unnecessary for expense calculations.
-       </p>
+      <h3>10. Protect Saved Information</h3>
+      <p>Do not share sensitive information unnecessarily.</p>
 
-       <h3>11. Check Before Confirming</h3>
-       <p>
-        Check receipt details, calculations, exchange rates, and settlement
-        suggestions before relying on the results.
-       </p>
+      <h3>11. Check Before Confirming</h3>
+      <p>Review calculations and expense details.</p>
 
       <h3>12. Use SplitMate Responsibly</h3>
-      <p>
-        Do not falsify expenses, misuse another person's account, or
-        access information without permission.
-      </p>
+      <p>Do not falsify expenses or access another person's account.</p>
 
-      <p>
-        <strong>Our principle:</strong>
-        Be honest about expenses, check your calculations, and respect
-        everyone's privacy.
-      </p>
-      <button id="backbtn">back to home</button>
-      </section>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2026 SplitMate. All rights reserved.</p>
-    </footer>
-    <script>
-      // Find all the main sections.
+      <p><strong>Our principle:</strong> Be honest, check calculations,
+      and respect everyone's privacy.</p>
 
+      <button data-go="welcome" class="secondary">Back to Home</button>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 SplitMate. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Find all the main sections.
     const sectionIds = [
-
       "welcome", "signup", "login", "dashboard",
-
       "splitbill", "CreateTrip", "history", "settings",
-
       "about", "rules"
-
     ];
 
     // Show one section and hide the others.
-
     function showSection(sectionId) {
-
       sectionIds.forEach(function(id) {
-
         document.getElementById(id).hidden = (id !== sectionId);
-
       });
-
     }
 
     // Welcome page buttons.
-
     document.getElementById("signupbtn").addEventListener("click", function() {
-
       showSection("signup");
-
     });
 
     document.getElementById("loginbtn").addEventListener("click", function() {
-
       showSection("login");
-
     });
 
     document.getElementById("aboutbtn").addEventListener("click", function() {
-
       showSection("about");
-
     });
 
     document.getElementById("rulesbtn").addEventListener("click", function() {
-
       showSection("rules");
-
     });
 
     // All buttons with a data-go attribute navigate to that section.
-
     document.querySelectorAll("[data-go]").forEach(function(button) {
-
       button.addEventListener("click", function() {
-
         showSection(button.dataset.go);
-
       });
-
     });
 
     // Demo sign-up: this does not create a real account.
-
     document.getElementById("signform").addEventListener("submit", function(event) {
-
       event.preventDefault();
 
       const username = document.getElementById("signupUsername").value.trim();
 
       document.getElementById("signupMessage").textContent =
-
         "Demo only: form completed for " + username +
-
         ". Real account creation is not connected yet.";
 
       document.getElementById("loginUsername").value = username;
-
     });
 
     // Demo login: this does not verify credentials.
-
     document.getElementById("loginForm").addEventListener("submit", function(event) {
-
       event.preventDefault();
 
       document.getElementById("loginMessage").textContent =
-
         "Demo only: login is not connected to a real account system.";
-
     });
 
     // Calculate an equal share for a simple bill.
-
     document.getElementById("billForm").addEventListener("submit", function(event) {
-
       event.preventDefault();
 
       const name = document.getElementById("billName").value.trim();
-
       const members = Number(document.getElementById("billMembers").value);
-
       const amount = Number(document.getElementById("billAmount").value);
-
       const currency = document.getElementById("currency").value;
 
       if (!name || !Number.isInteger(members) || members < 1 ||
-
           !Number.isFinite(amount) || amount <= 0) {
-
         document.getElementById("billResult").textContent =
-
           "Enter a valid bill name, number of people, and amount.";
-
         return;
-
       }
 
       const share = amount / members;
 
       document.getElementById("billResult").textContent =
-
         name + ": total " + amount.toFixed(2) + " " + currency +
-
         ". Each of " + members + " people pays " +
-
         share.toFixed(2) + " " + currency + ".";
-
     });
 
     // Calculate an equal share for total trip expenses.
-
     document.getElementById("tripForm").addEventListener("submit", function(event) {
-
       event.preventDefault();
 
       const name = document.getElementById("tripName").value.trim();
-
       const members = Number(document.getElementById("tripMembers").value);
-
       const amount = Number(document.getElementById("tripAmount").value);
-
       const currency = document.getElementById("currency").value;
 
       if (!name || !Number.isInteger(members) || members < 1 ||
-
           !Number.isFinite(amount) || amount < 0) {
-
         document.getElementById("tripResult").textContent =
-
           "Enter a valid trip name, number of people, and amount.";
-
         return;
-
       }
 
       const share = amount / members;
 
       document.getElementById("tripResult").textContent =
-
         name + ": total expenses " + amount.toFixed(2) + " " + currency +
-
         ". Each of " + members + " people shares " +
-
         share.toFixed(2) + " " + currency + ".";
-
     });
 
     // Update the displayed currency.
-
     document.getElementById("currency").addEventListener("change", function() {
-
       document.getElementById("currencyResult").textContent = this.value;
-
     });
-        
-      
-      
-    </script>
-    
-      
-      
-      
-     
-    
-      
-        
-      
-        
-      
-        
+  </script>
 
-      
-      
-   
-    
-    
-    
-    
-
-    
-      
-    
-  </body>
+</body>
 </html>

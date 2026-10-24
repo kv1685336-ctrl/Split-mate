@@ -47,17 +47,26 @@
         <h2>YOUR DASHBOARD</h2>
         <div class="menu">
           <button data-go="splitbill">Split a bill</button>
-          <button id="tripbtn">Start trip split</button>
-          <button id="historybtn">History</button>
-          <button id="settingsbtn">Settings</button>
+          <button data-go="tripbtn">Start trip split</button>
+          <button data-go="historybtn">History</button>
+          <button data-go="settingsbtn">Settings</button>
+        </div>
         </section>
+      
       <section id="splitbill" hidden>
         <h2>SPLIT A BILL</h2>
         <p>Add members, upload a receipt and assign items.</p>
-        <button type="button" onclick="showSection(dashboard)">back to Dashboard</button>
-        
-  
-        
+        <form id="billForm">
+          <label for="billName">Bill Name</label>
+          <input id="billName" type="text" placeholder="e.g. Dinner">
+          <label for="billMembers">bill Members</label>
+          <input id="billMembers" type="number" min="1" step="1" required>
+          <label for="billAmount">Total amount</label>
+          <input id="billamount" type="number" min="0.01" step="0.01" required>
+          <button type="sumbit">Calculate Shares</button>
+        </form>
+        <p id="billResult" aria-live="polite"</p>
+        <button data-go="dashBoard" class="secondary">back to Dashboard</button>   
       </section>
       <section id="CreateTrip" hidden>
         <h2>Start calculating your trip splits</h2>

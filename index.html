@@ -399,13 +399,16 @@
       document.getElementById("loginUsername").value = username;
     });
 
-    // Demo login: this does not verify credentials.
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+   
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+  event.preventDefault();
 
-      document.getElementById("loginMessage").textContent =
-        "Demo only: login is not connected to a real account system.";
-    });
+  // Demo only: this does not verify a real account.
+  showSection("dashboard");
+});
+
+      
+  
 
     // Calculate an equal share for a simple bill.
     document.getElementById("billForm").addEventListener("submit", function(event) {

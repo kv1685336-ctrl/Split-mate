@@ -20,7 +20,7 @@
         <button id="signupbtn">Sign up</button>
         <button id="loginbtn">log in</button>
         <button id="aboutbtn">About SplitMate></button>
-        <button id="rulesbtn">rules</button>
+        
       </section>
       <section id="signup" hidden>
         <h2>Create Your account</h2>
@@ -133,8 +133,8 @@
         
         
 
-          <section id="rules" hidden>
-        <h2>Rules for Using SplitMate</h2>
+          
+        <h1><strong>Rules for Using SplitMate</strong></h1>
 
         <p>
         Welcome to SplitMate! Follow these guidelines to help everyone
@@ -226,55 +226,181 @@
       <p>&copy; 2026 SplitMate. All rights reserved.</p>
     </footer>
     <script>
-      const signupbtn = document.getElementById("signupbtn");
-      const loginbtn = document.getElementById("loginbtn");
-      const welcome = document.getElementById("welcome");
-      const signup = document.getElementById("signup");
-      const login = document.getElementById("login");
-      const aboutbtn = document.getElementById("aboutbtn");
-      const backbtn = document.getElementById("backbtn");
-      const about = document.getElementById("about");
-      const rules = document.getElementById("rules");
-      const splitbillbtn = document.getElementById("splitbillbtn");
-      const tripbtn = document.getElementById("tripbtn");
-      const historybtn = doucment.getElementById("historybtn");
-      const settingsbtn = document.getElementById("settingsbtn");
-      const dashboard = document.getElementById("dashboard");
-      const trip = document.getElementById("CreateTrip");
-      const splitbill = document.getElementById("splitbill");
-      const history = document.getElementById("history");
-      const settings = document.getElementById("settings");
-      signupbtn.addEventListener("click", function() {
-        welcome.hidden = true;
-        signup.hidden = false;
-        login.hidden = true;
-        about.hidden = true;
-        rules.hidden = true;
+      // Find all the main sections.
+
+    const sectionIds = [
+
+      "welcome", "signup", "login", "dashboard",
+
+      "splitbill", "CreateTrip", "history", "settings",
+
+      "about", "rules"
+
+    ];
+
+    // Show one section and hide the others.
+
+    function showSection(sectionId) {
+
+      sectionIds.forEach(function(id) {
+
+        document.getElementById(id).hidden = (id !== sectionId);
+
       });
-     loginbtn.addEventListener("click", function() {
-        welcome.hidden = true;
-        signup.hidden = true;
-        login.hidden = false;
-        about.hidden = true;
-        rules.hidden = true;
-       
+
+    }
+
+    // Welcome page buttons.
+
+    document.getElementById("signupbtn").addEventListener("click", function() {
+
+      showSection("signup");
+
+    });
+
+    document.getElementById("loginbtn").addEventListener("click", function() {
+
+      showSection("login");
+
+    });
+
+    document.getElementById("aboutbtn").addEventListener("click", function() {
+
+      showSection("about");
+
+    });
+
+    document.getElementById("rulesbtn").addEventListener("click", function() {
+
+      showSection("rules");
+
+    });
+
+    // All buttons with a data-go attribute navigate to that section.
+
+    document.querySelectorAll("[data-go]").forEach(function(button) {
+
+      button.addEventListener("click", function() {
+
+        showSection(button.dataset.go);
+
       });
-      aboutbtn.addEventListener("click", function() {
-        welcome.hidden = true;
-        about.hidden = false
-        signup.hidden = true;
-        login.hidden = true;
-        rules.hidden = false;
-      });
-      backbtn.addEventListener("click", function() {
-        welcome.hidden = false;
-        signup.hidden = true;
-        login.hidden = true;
-        about.hidden = true;
-        rules.hidden = true;
-      });
-      
-      
+
+    });
+
+    // Demo sign-up: this does not create a real account.
+
+    document.getElementById("signform").addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const username = document.getElementById("signupUsername").value.trim();
+
+      document.getElementById("signupMessage").textContent =
+
+        "Demo only: form completed for " + username +
+
+        ". Real account creation is not connected yet.";
+
+      document.getElementById("loginUsername").value = username;
+
+    });
+
+    // Demo login: this does not verify credentials.
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      document.getElementById("loginMessage").textContent =
+
+        "Demo only: login is not connected to a real account system.";
+
+    });
+
+    // Calculate an equal share for a simple bill.
+
+    document.getElementById("billForm").addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const name = document.getElementById("billName").value.trim();
+
+      const members = Number(document.getElementById("billMembers").value);
+
+      const amount = Number(document.getElementById("billAmount").value);
+
+      const currency = document.getElementById("currency").value;
+
+      if (!name || !Number.isInteger(members) || members < 1 ||
+
+          !Number.isFinite(amount) || amount <= 0) {
+
+        document.getElementById("billResult").textContent =
+
+          "Enter a valid bill name, number of people, and amount.";
+
+        return;
+
+      }
+
+      const share = amount / members;
+
+      document.getElementById("billResult").textContent =
+
+        name + ": total " + amount.toFixed(2) + " " + currency +
+
+        ". Each of " + members + " people pays " +
+
+        share.toFixed(2) + " " + currency + ".";
+
+    });
+
+    // Calculate an equal share for total trip expenses.
+
+    document.getElementById("tripForm").addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      const name = document.getElementById("tripName").value.trim();
+
+      const members = Number(document.getElementById("tripMembers").value);
+
+      const amount = Number(document.getElementById("tripAmount").value);
+
+      const currency = document.getElementById("currency").value;
+
+      if (!name || !Number.isInteger(members) || members < 1 ||
+
+          !Number.isFinite(amount) || amount < 0) {
+
+        document.getElementById("tripResult").textContent =
+
+          "Enter a valid trip name, number of people, and amount.";
+
+        return;
+
+      }
+
+      const share = amount / members;
+
+      document.getElementById("tripResult").textContent =
+
+        name + ": total expenses " + amount.toFixed(2) + " " + currency +
+
+        ". Each of " + members + " people shares " +
+
+        share.toFixed(2) + " " + currency + ".";
+
+    });
+
+    // Update the displayed currency.
+
+    document.getElementById("currency").addEventListener("change", function() {
+
+      document.getElementById("currencyResult").textContent = this.value;
+
+    });
         
       
       

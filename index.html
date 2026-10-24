@@ -414,30 +414,80 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
   
 
     // Calculate an equal share for a simple bill.
-    document.getElementById("billForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+    
+    document.getElementById("billForm").addEventListener("submit", function (event) {
+  event.preventDefault();
 
-      const name = document.getElementById("billName").value.trim();
-      const members = Number(document.getElementById("billMembers").value);
-      const amount = Number(document.getElementById("billAmount").value);
-      const currency = document.getElementById("currency").value;
-      const membersname = document.getElementById("membersname").value.trim();
+  const billName = document.getElementById("billName").value.trim();
+  const total = Number(document.getElementById("billAmount").value);
+  const result = document.getElementById("billResult");
 
-      if (!name || !Number.isInteger(members) || members < 1 ||
-          !Number.isFinite(amount) || amount <= 0) {
-        document.getElementById("billResult").textContent =
-          "Enter a valid bill name, number of people, and amount.";
-        return;
-      }
+  const names = document
+    .getElementById("memberNames")
+    .value
+    .split("\n")
+    .map(name => name.trim())
+    .filter(name => name.length > 0);
 
-      const share = amount / members;
+  if (!billName || !Number.isFinite(total) || total <= 0) {
+    result.textContent = "Please enter a valid bill name and amount.";
+    return;
+  }
 
-      document.getElementById("billResult").textContent =
-        name + membersname +
-        
-        share.toFixed(2) + " " + currency + ".";
-    });
+  if (names.length === 0) {
+    result.textContent = "Please enter at least one member's name.";
+    return;
+  }
 
+  const uniqueNames = names.map(name => name.toLowerCase());
+
+  if (new Set(uniqueNames).size !== names.length) {
+    result.textContent = "Please remove duplicate member names.";
+    return;
+  }
+
+  // Work in paise to avoid rounding errors.
+  const totalPaise = Math.round(total * 100);
+
+  if (Math.abs(total * 100 - totalPaise) > 0.000001) {
+    result.textContent = "Please enter an amount with no more than 2 decimal places.";
+    return;
+  }
+
+  const baseShare = Math.floor(totalPaise / names.length);
+  const extraPaise = totalPaise % names.length;
+
+  const shares = names.map((name, index) => {
+    const sharePaise = baseShare + (index < extraPaise ? 1 : 0);
+    return { name, amount: (sharePaise / 100).toFixed(2) };
+  });
+
+  result.replaceChildren();
+
+  const heading = document.createElement("h3");
+  heading.textContent = billName + " — Shares";
+  result.appendChild(heading);
+
+  const list = document.createElement("ul");
+
+  shares.forEach(share => {
+    const item = document.createElement("li");
+    item.textContent = share.name + ": ₹" + share.amount;
+    list.appendChild(item);
+  });
+
+  result.appendChild(list);
+
+  const totalLine = document.createElement("p");
+  totalLine.textContent =
+    "Total: ₹" + (totalPaise / 100).toFixed(2) +
+    " | Members: " + names.length;
+  result.appendChild(totalLine);
+});
+
+
+
+    
     // Calculate an equal share for total trip expenses.
     document.getElementById("tripForm").addEventListener("submit", function(event) {
       event.preventDefault();

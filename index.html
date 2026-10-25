@@ -360,8 +360,8 @@
       bills.push(bill);
 
       localStorage.setItem(
-        "SplitMateBills"
-        JSON.Stringify(bills)
+        "splitMateBills",
+        JSON.stringify(bills)
       );
     }
     // Find all the main sections.
@@ -479,12 +479,12 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     const sharePaise = baseShare + (index < extraPaise ? 1 : 0);
     return { name, amount: (sharePaise / 100).toFixed(2) };
   });
-  saveBill ({
-    name: Billname,
+  saveBill({
+    name: billName,
     total: totalPaisa / 100,
-    currency: document.getElementById("currency").value(),
+    currency: document.getElementById("currency").value,
     members: shares,
-    date: new date().toLocalString()
+    date: new Date().toLocaleString()
     )};
     
     
@@ -557,7 +557,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
       bills.forEach(bill => {
         const card = document.createElement("div");
         const heading = document.createElement("h3");
-        const details = documenr.createElement("p");
+        const details = document.createElement("p");
         const members = document.createElement("ul");
         heading.textContent = bill.name;
         details.textContent = 
@@ -571,6 +571,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         card.append(heading, details, members);
         historyMessage.appendChild(card);
       });
+    }
           
   </script>
 

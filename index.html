@@ -349,245 +349,254 @@
   </footer>
 
   <script>
-    // saving history 
-    function getSavedBills() {
-      return JSON.parse(
-        localStorage.getItem("splitMateBills") || "[]"
-        );
+  // Save and load bill history
+  function getSavedBills() {
+    try {
+      return JSON.parse(localStorage.getItem("splitMateBills") || "[]");
+    } catch (error) {
+      return [];
     }
-    function saveBill(bill) {
-      const bills = getSavedBills();
-      bills.push(bill);
+  }
 
-      localStorage.setItem(
-        "splitMateBills",
-        JSON.stringify(bills)
-      );
-    }
-    // Find all the main sections.
-    const sectionIds = [
-      "welcome", "signup", "login", "dashboard",
-      "splitbill", "CreateTrip", "history", "settings",
-      "about", "rules"
-    ];
+  function saveBill(bill) {
+    const bills = getSavedBills();
+    bills.push(bill);
+    localStorage.setItem("splitMateBills", JSON.stringify(bills));
+  }
 
-    // Show one section and hide the others.
-    function showSection(sectionId) {
-      sectionIds.forEach(function(id) {
-        document.getElementById(id).hidden = (id !== sectionId);
-      });
+  // Section navigation
+  const sectionIds = [
+    "welcome", "signup", "login", "dashboard",
+    "splitbill", "CreateTrip", "history", "settings",
+    "about", "rules"
+  ];
+
+  function showSection(sectionId) {
+    if (!sectionIds.includes(sectionId)) {
+      console.error("Unknown section:", sectionId);
+      return;
     }
 
-    // Welcome page buttons.
-    document.getElementById("signupbtn").addEventListener("click", function() {
-      showSection("signup");
+    sectionIds.forEach(function(id) {
+      document.getElementById(id).hidden = (id !== sectionId);
     });
-
-    document.getElementById("loginbtn").addEventListener("click", function() {
-      showSection("login");
-    });
-
-    document.getElementById("aboutbtn").addEventListener("click", function() {
-      showSection("about");
-    });
-
-    document.getElementById("rulesbtn").addEventListener("click", function() {
-      showSection("rules");
-    });
-
-    // All buttons with a data-go attribute navigate to that section.
-    document.querySelectorAll("[data-go]").forEach(function(button) {
-      button.addEventListener("click", function() {
-        const destination = button.dataset.go;
-        showSection(destination);
-        if (destination === "history") {
-          showHistory();
-        }
-      });
-    });
-
-    // Demo sign-up: this does not create a real account.
-    document.getElementById("signform").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const username = document.getElementById("signupUsername").value.trim();
-
-      document.getElementById("signupMessage").textContent =
-        "Demo only: form completed for " + username +
-        ". Real account creation is not connected yet.";
-
-      document.getElementById("loginUsername").value = username;
-    });
-
-   
-document.getElementById("loginForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  // Demo only: this does not verify a real account.
-  showSection("dashboard");
-});
-
-      
-  
-
-    // Calculate an equal share for a simple bill.
-    
-    document.getElementById("billForm").addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const billName = document.getElementById("billName").value.trim();
-  const total = Number(document.getElementById("billAmount").value);
-  const result = document.getElementById("billResult");
-  const currency = document.getElementById("currency").value;
-
-  const names = document
-    .getElementById("memberNames")
-    .value
-    .split("\n")
-    .map(name => name.trim())
-    .filter(name => name.length > 0);
-
-  if (!billName || !Number.isFinite(total) || total <= 0) {
-    result.textContent = "Please enter a valid bill name and amount.";
-    return;
   }
 
-  if (names.length === 0) {
-    result.textContent = "Please enter at least one member's name.";
-    return;
-  }
-
-  const uniqueNames = names.map(name => name.toLowerCase());
-
-  if (new Set(uniqueNames).size !== names.length) {
-    result.textContent = "Please remove duplicate member names.";
-    return;
-  }
-
-  // Work in paise to avoid rounding errors.
-  const totalPaise = Math.round(total * 100);
-
-  if (Math.abs(total * 100 - totalPaise) > 0.000001) {
-    result.textContent = "Please enter an amount with no more than 2 decimal places.";
-    return;
-  }
-
-  const baseShare = Math.floor(totalPaise / names.length);
-  const extraPaise = totalPaise % names.length;
-
-  const shares = names.map((name, index) => {
-    const sharePaise = baseShare + (index < extraPaise ? 1 : 0);
-    return { name, amount: (sharePaise / 100).toFixed(2) };
+  // Welcome page buttons
+  document.getElementById("signupbtn").addEventListener("click", function() {
+    showSection("signup");
   });
-  saveBill({
-    name: billName,
-    total: totalPaise / 100,
-    currency: document.getElementById("currency").value,
-    members: shares,
-    date: new Date().toLocaleString()
+
+  document.getElementById("loginbtn").addEventListener("click", function() {
+    showSection("login");
+  });
+
+  document.getElementById("aboutbtn").addEventListener("click", function() {
+    showSection("about");
+  });
+
+  document.getElementById("rulesbtn").addEventListener("click", function() {
+    showSection("rules");
+  });
+
+  // Buttons that navigate to other sections
+  document.querySelectorAll("[data-go]").forEach(function(button) {
+    button.addEventListener("click", function() {
+      const destination = button.dataset.go;
+      showSection(destination);
+
+      if (destination === "history") {
+        showHistory();
+      }
     });
+  });
+
+  // Demo sign-up (not a real account system)
+  document.getElementById("signform").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const username = document.getElementById("signupUsername").value.trim();
+
+    document.getElementById("signupMessage").textContent =
+      "Demo only: form completed for " + username +
+      ". Real account creation is not connected yet.";
+
+    document.getElementById("loginUsername").value = username;
+    showSection("login");
+  });
+
+  // Demo login (does not verify account credentials)
+  document.getElementById("loginForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    showSection("dashboard");
+  });
+
+  // Calculate and save an equal bill split
+  document.getElementById("billForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const billName = document.getElementById("billName").value.trim();
+    const total = Number(document.getElementById("billAmount").value);
+    const result = document.getElementById("billResult");
+    const currency = document.getElementById("currency").value;
+
+    const names = document.getElementById("memberNames").value
+      .split("\n")
+      .map(name => name.trim())
+      .filter(name => name.length > 0);
+
+    if (!billName || !Number.isFinite(total) || total <= 0) {
+      result.textContent = "Please enter a valid bill name and amount.";
+      return;
+    }
+
+    if (names.length === 0) {
+      result.textContent = "Please enter at least one member's name.";
+      return;
+    }
+
+    const uniqueNames = names.map(name => name.toLowerCase());
+
+    if (new Set(uniqueNames).size !== names.length) {
+      result.textContent = "Please remove duplicate member names.";
+      return;
+    }
+
+    const totalPaise = Math.round(total * 100);
+
+    if (Math.abs(total * 100 - totalPaise) > 0.000001) {
+      result.textContent =
+        "Please enter an amount with no more than 2 decimal places.";
+      return;
+    }
+
+    const baseShare = Math.floor(totalPaise / names.length);
+    const extraPaise = totalPaise % names.length;
+
+    const shares = names.map((name, index) => {
+      const sharePaise = baseShare + (index < extraPaise ? 1 : 0);
+      return {
+        name: name,
+        amount: (sharePaise / 100).toFixed(2)
+      };
+    });
+
+    const bill = {
+      name: billName,
+      total: totalPaise / 100,
+      currency: currency,
+      members: shares,
+      date: new Date().toLocaleString()
+    };
+
+    try {
+      saveBill(bill);
+    } catch (error) {
+      result.textContent =
+        "The bill was calculated, but could not be saved in this browser.";
+    }
 
     result.replaceChildren();
+
     const heading = document.createElement("h3");
     heading.textContent = billName + " — Shares";
-
     result.appendChild(heading);
 
     const list = document.createElement("ul");
 
     const formatter = new Intl.NumberFormat("en-IN", {
-
-    style: "currency",
-
-    currency: currency
-
-});
+      style: "currency",
+      currency: currency
+    });
 
     shares.forEach(share => {
-
-    const item = document.createElement("li");
-
-    item.textContent = share.name + ": " +
-
-    formatter.format(Number(share.amount));
-
-    list.appendChild(item);
-
-});
+      const item = document.createElement("li");
+      item.textContent =
+        share.name + ": " + formatter.format(Number(share.amount));
+      list.appendChild(item);
+    });
 
     result.appendChild(list);
 
     const totalLine = document.createElement("p");
-
     totalLine.textContent =
-      
+      "Total: " + formatter.format(totalPaise / 100) +
+      " | Members: " + names.length;
 
-      "Total: " + formatter.format(totalPaise / 100) + " | members" + names.length;
     result.appendChild(totalLine);
-    
- 
+  });
 
-  
+  // Calculate equal trip expenses
+  document.getElementById("tripForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    
+    const name = document.getElementById("tripName").value.trim();
+    const members = Number(document.getElementById("tripMembers").value);
+    const amount = Number(document.getElementById("tripAmount").value);
+    const currency = document.getElementById("currency").value;
 
-    // Calculate an equal share for total trip expenses.
-    document.getElementById("tripForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const name = document.getElementById("tripName").value.trim();
-      const members = Number(document.getElementById("tripMembers").value);
-      const amount = Number(document.getElementById("tripAmount").value);
-      const currency = document.getElementById("currency").value;
-
-      if (!name || !Number.isInteger(members) || members < 1 ||
-          !Number.isFinite(amount) || amount < 0) {
-        document.getElementById("tripResult").textContent =
-          "Enter a valid trip name, number of people, and amount.";
-        return;
-      }
-
-      const share = amount / members;
-
+    if (
+      !name ||
+      !Number.isInteger(members) ||
+      members < 1 ||
+      !Number.isFinite(amount) ||
+      amount < 0
+    ) {
       document.getElementById("tripResult").textContent =
-        name + ": total expenses " + amount.toFixed(2) + " " + currency +
-        ". Each of " + members + " people shares " +
-        share.toFixed(2) + " " + currency + ".";
-    });
-
-    // Update the displayed currency.
-    document.getElementById("currency").addEventListener("change", function() {
-      document.getElementById("currencyResult").textContent = this.value;
-    });
-    // history
-    function showHistory() {
-      const historyMessage = document.getElementById("historyMessage");
-      const bills = getSavedBills();
-      historyMessage.replaceChildren();
-      if (bills.length === 0) {
-        historyMessage.textContent = "no saved bills yet.";
-        return;
-      }
-      bills.forEach(bill => {
-        const card = document.createElement("div");
-        const heading = document.createElement("h3");
-        const details = document.createElement("p");
-        const members = document.createElement("ul");
-        heading.textContent = bill.name;
-        details.textContent = 
-          "total: " + bill.total.toFixed(2) + " " + bill.currency + " | " + bill.date;
-        bill.members.forEach(member => {
-          const item = document.createElement("li");
-          item.textContent = 
-            member.name + ": " + Number(member.amount).toFixed(2) + " " + bill.currency;
-          members.appendChild(item);
-        });
-        card.append(heading, details, members);
-        historyMessage.appendChild(card);
-      });
+        "Enter a valid trip name, number of people, and amount.";
+      return;
     }
-          
-  </script>
+
+    const share = amount / members;
+
+    document.getElementById("tripResult").textContent =
+      name + ": total expenses " + amount.toFixed(2) + " " + currency +
+      ". Each of " + members + " people shares " +
+      share.toFixed(2) + " " + currency + ".";
+  });
+
+  // Update displayed currency
+  document.getElementById("currency").addEventListener("change", function() {
+    document.getElementById("currencyResult").textContent = this.value;
+  });
+
+  // Display saved bill history
+  function showHistory() {
+    const historyMessage = document.getElementById("historyMessage");
+    const bills = getSavedBills();
+
+    historyMessage.replaceChildren();
+
+    if (bills.length === 0) {
+      historyMessage.textContent = "No saved bills yet.";
+      return;
+    }
+
+    bills.forEach(bill => {
+      const card = document.createElement("div");
+      const heading = document.createElement("h3");
+      const details = document.createElement("p");
+      const members = document.createElement("ul");
+
+      heading.textContent = bill.name;
+
+      details.textContent =
+        "Total: " + Number(bill.total).toFixed(2) + " " +
+        bill.currency + " | " + bill.date;
+
+      bill.members.forEach(member => {
+        const item = document.createElement("li");
+        item.textContent =
+          member.name + ": " +
+          Number(member.amount).toFixed(2) + " " + bill.currency;
+        members.appendChild(item);
+      });
+
+      card.append(heading, details, members);
+      historyMessage.appendChild(card);
+    });
+  }
+</script>
 
 </body>
 </html>

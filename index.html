@@ -577,6 +577,7 @@
       const heading = document.createElement("h3");
       const details = document.createElement("p");
       const members = document.createElement("ul");
+      const deleteButton = document.createElement("button");
 
       heading.textContent = bill.name;
 
@@ -591,6 +592,11 @@
           Number(member.amount).toFixed(2) + " " + bill.currency;
         members.appendChild(item);
       });
+      deleteButton.textContent = "Delete";
+      deleteButton.type = "button";
+      deleteButton.addEventListener("click", function() {
+        const confirmed = confirm(
+          'are you sure
 
       card.append(heading, details, members);
       historyMessage.appendChild(card);

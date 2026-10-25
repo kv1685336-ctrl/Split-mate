@@ -486,41 +486,51 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     members: shares,
     date: new Date().toLocaleString()
     });
-    
-    
-      
-      
 
-  result.replaceChildren();
+    result.replaceChildren();
+    const heading = document.createElement("h3");
+    heading.textContent = billName + " — Shares";
 
-  const heading = document.createElement("h3");
-  heading.textContent = billName + " — Shares";
-  result.appendChild(heading);
+    result.appendChild(heading);
 
-  const list = document.createElement("ul");
-  const formatter = new Intl.NumberFormat("en-IN", {
+    const list = document.createElement("ul");
+
+    const formatter = new Intl.NumberFormat("en-IN", {
+
     style: "currency",
+
     currency: currency
-    });
-  shares.forEach(share => {
-    const item = document.createElement("li");
-  
-    item.textContent = share.name + ": " + formatter.format(number(share.amount));
-    list.appendChild(item);
-  });
 
-  result.appendChild(list);
-
-  const totalLine = document.createElement("p");
-  totalLine.textContent =
-    "Total: " + formatter.format(totalPaise / 100 + " | members: " + names.length; 
-    
-  result.appendChild(totalLine);
 });
 
+    shares.forEach(share => {
 
+    const item = document.createElement("li");
+
+    item.textContent = share.name + ": " +
+
+    formatter.format(Number(share.amount));
+
+    list.appendChild(item);
+
+});
+
+    result.appendChild(list);
+
+    const totalLine = document.createElement("p");
+
+    totalLine.textContent =
+      
+
+      "Total: " + formatter.format(totalPaise / 100) + " | members" + names.length;
+    result.appendChild(totalLine);
+    
+ 
+
+  
 
     
+
     // Calculate an equal share for total trip expenses.
     document.getElementById("tripForm").addEventListener("submit", function(event) {
       event.preventDefault();

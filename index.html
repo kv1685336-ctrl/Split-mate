@@ -398,7 +398,11 @@
     // All buttons with a data-go attribute navigate to that section.
     document.querySelectorAll("[data-go]").forEach(function(button) {
       button.addEventListener("click", function() {
-        showSection(button.dataset.go);
+        const destination = button.dataset.go;
+        showSection(destination);
+        if (destination === "history") {
+          showHistory();
+        }
       });
     });
 
@@ -558,6 +562,15 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         heading.textContent = bill.name;
         details.textContent = 
           "total: " + bill.total.toFixed(2) + " " + bill.currency + " | " + bill.date;
+        bill.members.forEach(member => {
+          const item = document.createElement("li");
+          item.textContent = 
+            member.name + ": " + Number(member.amount).toFixed(2) + " " + bill.currency;
+          members.appendChild(item);
+        });
+        card.append(heading, details, members);
+        historyMessage.appendChild(card);
+      });
           
   </script>
 

@@ -349,6 +349,21 @@
   </footer>
 
   <script>
+    // saving history 
+    function getSavedBills() {
+      return JSON.parse(
+        localStorage.getItem("splitMateBills") || "[]"
+        );
+    }
+    function saveBill(bill) {
+      const bills = getSavedBills();
+      bills.push(bill);
+
+      localStorage.setItem(
+        "SplitMateBills"
+        JSON.Stringify(bills)
+      );
+    }
     // Find all the main sections.
     const sectionIds = [
       "welcome", "signup", "login", "dashboard",
@@ -460,6 +475,17 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     const sharePaise = baseShare + (index < extraPaise ? 1 : 0);
     return { name, amount: (sharePaise / 100).toFixed(2) };
   });
+  saveBill ({
+    name: Billname,
+    total: totalPaisa / 100,
+    currency: document.getElementById("currency").value(),
+    members: shares,
+    date: new date().toLocalString()
+    )};
+    
+    
+      
+      
 
   result.replaceChildren();
 
@@ -515,6 +541,24 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     document.getElementById("currency").addEventListener("change", function() {
       document.getElementById("currencyResult").textContent = this.value;
     });
+    // history
+    function showHistory() {
+      const historyMessage = document.getElementById("historyMessage");
+      const bills = getSavedBills();
+      historyMessage.replaceChildren();
+      if (bills.length === 0) {
+        historyMessage.textContent = "no saved bills yet.";
+        return;
+      }
+      bills.forEach(bill => {
+        const card = document.createElement("div");
+        const heading = document.createElement("h3");
+        const details = documenr.createElement("p");
+        const members = document.createElement("ul");
+        heading.textContent = bill.name;
+        details.textContent = 
+          "total: " + bill.total.toFixed(2) + " " + bill.currency + " | " + bill.date;
+          
   </script>
 
 </body>

@@ -471,7 +471,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
   shares.forEach(share => {
     const item = document.createElement("li");
-    item.textContent = share.name + ": " + currency + share.amount;
+    item.textContent = share.name + ": " + "" + currency + share.amount;
     list.appendChild(item);
   });
 
@@ -479,7 +479,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
   const totalLine = document.createElement("p");
   totalLine.textContent =
-    "Total: ₹" + (totalPaise / 100).toFixed(2) +
+    "Total: " + "" + currency + (totalPaise / 100).toFixed(2) +
     " | Members: " + names.length;
   result.appendChild(totalLine);
 });

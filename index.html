@@ -481,11 +481,11 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
   });
   saveBill({
     name: billName,
-    total: totalPaisa / 100,
+    total: totalPaise / 100,
     currency: document.getElementById("currency").value,
     members: shares,
     date: new Date().toLocaleString()
-    )};
+    });
     
     
       
@@ -498,10 +498,14 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
   result.appendChild(heading);
 
   const list = document.createElement("ul");
-
+  const formatter = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: currency
+    });
   shares.forEach(share => {
     const item = document.createElement("li");
-    item.textContent = share.name + ": " + "" + currency + share.amount;
+  
+    item.textContent = share.name + ": " + formatter.format(number(share.amount));
     list.appendChild(item);
   });
 
@@ -509,8 +513,8 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
   const totalLine = document.createElement("p");
   totalLine.textContent =
-    "Total: " + "" + currency + (totalPaise / 100).toFixed(2) +
-    " | Members: " + names.length;
+    "Total: " + formatter.format(totalPaise / 100 + " | members: " + names.length; 
+    
   result.appendChild(totalLine);
 });
 

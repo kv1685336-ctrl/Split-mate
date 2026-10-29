@@ -348,7 +348,17 @@
     <p>&copy; 2026 SplitMate. All rights reserved.</p>
   </footer>
 
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
   <script>
+    const SUPABASE_URL = "https://xokomtruggwgiqoalchz.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_PBzGDMCn5Zq4Y3qEVz-i8jQ_3FZ_yQHw";
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+      );
   // Save and load bill history
   function getSavedBills() {
     try {

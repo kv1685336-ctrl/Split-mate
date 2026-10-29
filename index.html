@@ -592,16 +592,48 @@
           Number(member.amount).toFixed(2) + " " + bill.currency;
         members.appendChild(item);
       });
-      deleteButton.textContent = "Delete";
-      deleteButton.type = "button";
-      deleteButton.addEventListener("click", function() {
-        const confirmed = confirm(
-          'are you sure
+      
+deleteButton.textContent = "Delete";
+deleteButton.type = "button";
+deleteButton.className = "secondary";
 
-      card.append(heading, details, members);
-      historyMessage.appendChild(card);
-    });
+deleteButton.addEventListener("click", function() {
+  const confirmed = confirm(
+    "Are you sure you want to delete this bill?"
+  );
+
+  if (!confirmed) {
+    return;
   }
+
+  const updatedBills = getSavedBills();
+  const billIndex = updatedBills.findIndex(savedBill =>
+    savedBill.name === bill.name &&
+    savedBill.date === bill.date &&
+    savedBill.total === bill.total &&
+    savedBill.currency === bill.currency
+  );
+
+  if (billIndex !== -1) {
+    updatedBills.splice(billIndex, 1);
+
+    try {
+      localStorage.setItem(
+        "splitMateBills",
+        JSON.stringify(updatedBills)
+      );
+    } catch (error) {
+      alert("Could not delete the bill. Please try again.");
+      return;
+    }
+  }
+
+  showHistory();
+});
+
+card.append(heading, details, members, deleteButton);
+historyMessage.appendChild(card);
+
 </script>
 
 </body>

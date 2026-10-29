@@ -131,8 +131,8 @@
     <section id="signup" hidden>
       <h2>Create Your Account</h2>
       <form id="signform">
-        <label for="signupUsername">Username</label>
-        <input type="text" id="signupUsername" required>
+        <label for="signupEmail">Email Address</label>
+        <input type="email" id="signupEmail" required>
 
         <label for="signupPassword">Password</label>
         <input type="password" id="signupPassword" required>
@@ -149,8 +149,8 @@
     <section id="login" hidden>
       <h2>Log In</h2>
       <form id="loginForm">
-        <label for="loginUsername">Username</label>
-        <input type="text" id="loginUsername" required>
+        <label for="loginEmail">Username</label>
+        <input type="email" id="loginEmail" required>
 
         <label for="loginPassword">Password</label>
         <input type="password" id="loginPassword" required>
@@ -173,7 +173,7 @@
         <button data-go="CreateTrip">Start Trip Split</button>
         <button data-go="history">History</button>
         <button data-go="settings">Settings</button>
-        <button data-go="welcome" class="secondary">Log out</button>
+        <button id="logoutButton" class="secondary">Log out</button>
       </div>
     </section>
 
@@ -422,25 +422,53 @@
   });
 
   // Demo sign-up (not a real account system)
-  document.getElementById("signform").addEventListener("submit", function(event) {
+  document.getElementById("signform").addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const username = document.getElementById("signupUsername").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const message = document.getElementById("signupMessage");
+    message.textContent = "Creating Your Account...";
 
-    document.getElementById("signupMessage").textContent =
-      "Demo only: form completed for " + username +
-      ". Real account creation is not connected yet.";
+    const { data, error } = await supabaseClient.auth.Signup({
+      email: email,
+      password: password,
+    });
 
-    document.getElementById("loginUsername").value = username;
-    showSection("login");
-  });
+    if (error) {
+      message.textContent = "SignUp Failed: " + error.messgae;
+      return
+    }
+    if (data.session) {
+      messgae.textContent = "Account Created Successfully";
+      showSection("dashBoard");
+    } else {
+      message.textContent = "Account created! Check your email for a confirmation link before logging in.";
+    }
+    });
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
 
-  // Demo login (does not verify account credentials)
-  document.getElementById("loginForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    showSection("dashboard");
-  });
+      const password = document.getElementById("loginPassword").value;
 
+      const message = document.getElementById("loginMessage");
+      message.textContent = "Logging in...";
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: paasword
+      });
+      if (error) {
+        message.textContent = "Login failed: " + error.message;
+        return;
+      }
+      message.textContent = "";
+
+      showSection("dashboard");
+      
+    
+
+    
   // Calculate and save an equal bill split
   document.getElementById("billForm").addEventListener("submit", function(event) {
     event.preventDefault();

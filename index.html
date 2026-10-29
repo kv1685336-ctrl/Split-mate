@@ -149,7 +149,7 @@
     <section id="login" hidden>
       <h2>Log In</h2>
       <form id="loginForm">
-        <label for="loginEmail">Username</label>
+        <label for="loginEmail">Email Address</label>
         <input type="email" id="loginEmail" required>
 
         <label for="loginPassword">Password</label>
@@ -431,18 +431,18 @@
     const message = document.getElementById("signupMessage");
     message.textContent = "Creating Your Account...";
 
-    const { data, error } = await supabaseClient.auth.Signup({
+    const { data, error } = await supabaseClient.auth.SignUp({
       email: email,
       password: password,
     });
 
     if (error) {
-      message.textContent = "SignUp Failed: " + error.messgae;
+      message.textContent = "SignUp Failed: " + error.message;
       return
     }
     if (data.session) {
       messgae.textContent = "Account Created Successfully";
-      showSection("dashBoard");
+      showSection("dashboard");
     } else {
       message.textContent = "Account created! Check your email for a confirmation link before logging in.";
     }
@@ -460,7 +460,7 @@
       message.textContent = "Logging in...";
       const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: email,
-        password: paasword
+        password: password
       });
       if (error) {
         message.textContent = "Login failed: " + error.message;
@@ -469,16 +469,17 @@
       message.textContent = "";
 
       showSection("dashboard");
+    });
 
       // logout
 
-      document.getElementById("logoutButton").addEventListener("click", async function() {
-        const { error } = await supabaseClient.auth.signOut();
-        if (error) {
-          alert("Could not log out. Please try again.");
-          return;
+    document.getElementById("logoutButton").addEventListener("click", async function() {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) {
+        alert("Could not log out. Please try again.");
+        return;
         }
-        showSection("welcome");
+      showSection("welcome");
       });
       
       
